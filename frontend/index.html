@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Breathe Better — Quit Smoking Coach</title>
+  <!-- Tailwind via CDN for quick demo styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-[rgb(248,249,250)] min-h-screen text-slate-800">
+  <header class="sticky top-0 z-20 backdrop-blur bg-white/70 border-b border-slate-200/60">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 grid place-items-center text-white font-bold">QB</div>
+          <div>
+            <h1 class="text-lg font-bold">Breathe Better</h1>
+            <p class="text-xs text-slate-500 -mt-1">Your quit‑smoking companion</p>
+          </div>
+        </a>
+      </div>
+      <nav class="hidden md:flex gap-2 text-sm">
+        <button class="tab-btn chip" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn chip" data-tab="coach">AI Coach</button>
+        <button class="tab-btn chip" data-tab="log">Cravings</button>
+        <button class="tab-btn chip" data-tab="tools">Tools</button>
+        <button class="tab-btn chip" data-tab="settings">Settings</button>
+
+        <!-- Support Button -->
+         <button 
+            onclick="supportApp()" 
+            class="ml-2 px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition">
+               ☕ Support
+         </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Tabs for mobile -->
+    <div class="md:hidden grid grid-cols-5 gap-2 mb-4">
+      <button class="tab-btn chip w-full" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn chip w-full" data-tab="coach">AI Coach</button>
+      <button class="tab-btn chip w-full" data-tab="log">Cravings</button>
+      <button class="tab-btn chip w-full" data-tab="tools">Tools</button>
+      <button class="tab-btn chip w-full" data-tab="settings">Settings</button>
+    <!-- Support Button -->
+        <button 
+           onclick="supportApp()" 
+           class="chip w-full bg-emerald-600 text-white hover:bg-emerald-700">
+           ☕ Support
+  </button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section id="tab-dashboard" class="tab fade-in">
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Streak card -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Smoke‑free Streak</h2>
+            <span class="chip" id="quitStatus">Not set</span>
+          </div>
+          <div class="mt-5 grid grid-cols-[120px_1fr] items-center gap-5">
+            <div class="progress w-[120px] h-[120px] grid place-items-center" id="streakRing">
+              <div class="text-center">
+                <div class="text-2xl font-bold" id="streakDays">0</div>
+                <div class="text-[11px] text-slate-500">days</div>
+              </div>
+            </div>
+            <div class="text-sm">
+              <p class="text-slate-600">Money saved: <span class="font-semibold" id="moneySaved">$0</span></p>
+              <p class="text-slate-600">Cigs avoided: <span class="font-semibold" id="cigsAvoided">0</span></p>
+              <p class="text-slate-600">Next milestone: <span class="font-semibold" id="nextMilestone">24 hours</span></p>
+              <div class="mt-3 flex gap-2">
+                <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white text-sm" id="urgeBtn">I have a craving</button>
+                <button class="px-3 py-2 rounded-xl bg-slate-900 text-white text-sm" onclick="switchTab('settings')">Set/Update goals</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Motivation card -->
+        <div class="card p-5">
+          <h2 class="font-semibold">Daily Motivation</h2>
+          <blockquote class="mt-3 p-4 bg-slate-50 rounded-xl text-sm" id="dailyQuote">Every small step counts. Future you says thanks.</blockquote>
+          <div class="flex gap-2 mt-3">
+            <button class="px-3 py-2 rounded-xl bg-white border text-sm" id="newQuote">New message</button>
+            <button class="px-3 py-2 rounded-xl bg-white border text-sm" id="speakQuote">Speak</button>
+          </div>
+          <p class="text-xs text-slate-500 mt-3">General wellbeing tips — not a medical diagnosis. If you’re worried about your health, talk to a clinician.</p>
+        </div>
+        <!-- Quick Tools card -->
+        <div class="card p-5">
+          <h2 class="font-semibold">Quick Tools</h2>
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <button class="p-4 rounded-2xl border bg-white" onclick="startUrgeTimer()">Urge Timer (5‑min)</button>
+            <button class="p-4 rounded-2xl border bg-white" onclick="openBreathing()">4‑7‑8 Breathing</button>
+            <button class="p-4 rounded-2xl border bg-white" onclick="switchTab('coach')">Chat with Coach</button>
+            <button class="p-4 rounded-2xl border bg-white" onclick="switchTab('log')">Log a Craving</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <!-- Craving trends -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Craving Trends</h2>
+            <button class="text-sm underline" onclick="analyzeCravings()">AI analysis</button>
+          </div>
+          <div class="mt-3 text-sm" id="trendSummary">Log cravings to see patterns by time, trigger, and mood.</div>
+          <ul class="mt-3 text-sm space-y-2" id="recentCravings"></ul>
+        </div>
+        <!-- Plan -->
+        <div class="card p-5">
+          <h2 class="font-semibold">My Plan</h2>
+          <ul class="mt-3 text-sm space-y-2" id="planList"></ul>
+          <div class="mt-3 flex gap-2">
+            <input id="planInput" class="flex-1 px-3 py-2 rounded-xl border" placeholder="Add a coping strategy (e.g., drink water, short walk)" />
+            <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="addPlan()">Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COACH -->
+    <section id="tab-coach" class="tab hidden fade-in">
+      <div class="grid md:grid-cols-[1.5fr_1fr] gap-4">
+        <div class="card p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">AI Coach</h2>
+            <span class="text-xs text-slate-500">Empathetic, non‑judgmental guidance</span>
+          </div>
+          <div class="chat mt-3" id="chat"></div>
+          <form id="chatForm" class="mt-3 flex gap-2" onsubmit="sendMessage(event)">
+            <input id="message" class="flex-1 px-3 py-2 rounded-xl border" placeholder="e.g., I'm craving after dinner" />
+            <button class="px-4 py-2 rounded-xl bg-slate-900 text-white">Send</button>
+          </form>
+          <p class="text-xs text-slate-500 mt-3">This app offers general support, not medical advice. If you feel unwell or unsafe, contact local health services.</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold">AI Settings</h3>
+          <p class="text-xs text-slate-500 mb-2">Optional: connect to your preferred AI provider. Keys are stored only in your browser (localStorage).</p>
+          <label class="text-sm">Provider Base URL</label>
+          <input id="aiUrl" class="w-full px-3 py-2 rounded-xl border mb-2" placeholder="https://api.your-provider.com" />
+          <label class="text-sm">API Key</label>
+          <input id="aiKey" class="w-full px-3 py-2 rounded-xl border" placeholder="sk-..." />
+          <label class="text-sm mt-3 block">Model</label>
+          <input id="aiModel" class="w-full px-3 py-2 rounded-xl border" placeholder="e.g., gpt-4o-mini or similar" />
+          <button class="mt-3 px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="saveAI()">Save</button>
+          <div class="mt-4 text-sm">
+            <p class="font-semibold mb-1">No key? No problem.</p>
+            <p>Chat will still work in <span class="font-semibold">Offline Coach</span> mode using curated strategies and motivational interviewing prompts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOG -->
+    <section id="tab-log" class="tab hidden fade-in">
+      <div class="card p-5">
+        <h2 class="font-semibold">Log a Craving</h2>
+        <div class="grid md:grid-cols-4 gap-3 mt-3 text-sm">
+          <div>
+            <label class="text-xs">Intensity (1–10)</label>
+            <input id="intensity" type="number" min="1" max="10" class="w-full px-3 py-2 rounded-xl border" placeholder="6" />
+          </div>
+          <div>
+            <label class="text-xs">Trigger</label>
+            <select id="trigger" class="w-full px-3 py-2 rounded-xl border">
+              <option>After meal</option>
+              <option>Stress</option>
+              <option>Social</option>
+              <option>Boredom</option>
+              <option>Commute</option>
+              <option>Morning coffee</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs">Mood</label>
+            <select id="mood" class="w-full px-3 py-2 rounded-xl border">
+              <option>Calm</option>
+              <option>Stressed</option>
+              <option>Sad</option>
+              <option>Happy</option>
+              <option>Tired</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs">Notes</label>
+            <input id="notes" class="w-full px-3 py-2 rounded-xl border" placeholder="What was happening?" />
+          </div>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="addCraving()">Save</button>
+          <button class="px-3 py-2 rounded-xl bg-white border" onclick="clearCravings()">Clear all</button>
+        </div>
+        <ul id="cravingList"></ul>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tab-tools" class="tab hidden fade-in">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card p-5">
+          <h2 class="font-semibold">4‑7‑8 Breathing</h2>
+          <p class="text-sm text-slate-600">Inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.</p>
+          <div class="breath-circle pulse my-6"></div>
+          <div class="flex gap-2">
+            <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="guideBreathing()">Start Guided</button>
+            <button class="px-3 py-2 rounded-xl bg-white border" onclick="stopSpeech()">Stop Voice</button>
+          </div>
+        </div>
+        <div class="card p-5">
+          <h2 class="font-semibold">Urge Timer (5 minutes)</h2>
+          <p class="text-sm text-slate-600">Most cravings peak and pass within minutes. Stay with it—you've got this.</p>
+          <div class="flex items-center gap-4 mt-4">
+            <div class="w-28 h-28 progress grid place-items-center" id="urgeRing"><div class="text-xl font-bold" id="urgeTime">5:00</div></div>
+            <div class="text-sm flex-1" id="urgeTips">Press start to begin.</div>
+          </div>
+          <div class="mt-3 flex gap-2">
+            <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="startUrgeTimer()">Start</button>
+            <button class="px-3 py-2 rounded-xl bg-white border" onclick="resetUrgeTimer()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="tab hidden fade-in">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="card p-5">
+          <h2 class="font-semibold">Your Details</h2>
+          <div class="grid md:grid-cols-2 gap-3 mt-3 text-sm">
+            <div>
+              <label class="text-xs">Quit date</label>
+              <input id="quitDate" type="date" class="w-full px-3 py-2 rounded-xl border" />
+            </div>
+            <div>
+              <label class="text-xs">Cigarettes/day (before)</label>
+              <input id="cigsPerDay" type="number" class="w-full px-3 py-2 rounded-xl border" placeholder="15"/>
+            </div>
+            <div>
+              <label class="text-xs">Price per pack</label>
+              <input id="packPrice" type="number" class="w-full px-3 py-2 rounded-xl border" placeholder="8"/>
+            </div>
+            <div>
+              <label class="text-xs">Cigs per pack</label>
+              <input id="perPack" type="number" class="w-full px-3 py-2 rounded-xl border" placeholder="20"/>
+            </div>
+          </div>
+          <div class="mt-3 flex gap-2">
+            <button class="px-3 py-2 rounded-xl bg-emerald-600 text-white" onclick="saveProfile()">Save</button>
+            <button class="px-3 py-2 rounded-xl bg-white border" onclick="resetProfile()">Reset</button>
+          </div>
+          <p class="text-xs text-slate-500 mt-3">Please navigate to the Dashboard to view your profile stats.</p>
+        </div>
+        <div class="card p-5">
+          <h2 class="font-semibold">Reminders</h2>
+          <p class="text-sm text-slate-600">Enable notifications for gentle check‑ins.</p>
+          <div class="mt-3 flex gap-2">
+            <button class="px-3 py-2 rounded-xl bg-slate-900 text-white" onclick="enableNotifs()">Enable Notifications</button>
+            <button class="px-3 py-2 rounded-xl bg-white border" onclick="sendTestNotif()">Test</button>
+          </div>
+          <ul class="text-sm mt-3 list-disc ml-5">
+            <li>Morning check‑in: plan your day without cigarettes.</li>
+            <li>Evening review: celebrate wins (no matter how small).</li>
+          </ul>
+        </div>
+   <!-- SUPPORT DEVELOPMENT -->
+    
+  <div class="card p-5 text-center">
+    <h2 class="font-semibold text-xl mb-3">Support Development</h2>
+    <p class="text-slate-600 mb-4">Help us keep Breathe Better free by making a small donation.</p>
+    
+    <div class="flex justify-center gap-3 mb-4"> 
+      <button class="donation-btn px-4 py-2 rounded-xl border hover:bg-emerald-50" data-amount="5">$5</button>
+      <button class="donation-btn px-4 py-2 rounded-xl border hover:bg-emerald-50" data-amount="10">$10</button>
+      <button class="donation-btn px-4 py-2 rounded-xl border hover:bg-emerald-50" data-amount="20">$20</button>
+    </div>
+
+    <button id="donateNowBtn" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition">
+      Donate Now
+    </button>
+  </div> 
+ 
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-4 py-10 text-xs text-slate-500">
+    <p>Disclaimer: This app provides general educational support for quitting smoking and is not a substitute for professional medical advice. If you have health concerns, consult a qualified clinician. If you feel unsafe, contact emergency services in your area.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

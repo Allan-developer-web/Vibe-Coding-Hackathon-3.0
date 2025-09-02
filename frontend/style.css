@@ -1,0 +1,157 @@
+:root { --card: 255 255 255; --muted: 245 245 246; }
+    html, body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+    .card { background: rgb(var(--card)); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 1rem; }
+    .chip { background: rgba(0,0,0,0.05); padding: .25rem .5rem; border-radius: 999px; font-size: .75rem; }
+    /* Breathing circle */
+    .breath-circle { width: 180px; height: 180px; border-radius: 9999px; background: radial-gradient(circle at 30% 30%, #a7f3d0, #6ee7b7, #34d399); box-shadow: 0 8px 30px rgba(16,185,129,0.35); transform: scale(0.8); margin:auto; }
+    .pulse { animation: pulse 7.5s ease-in-out infinite; }
+    @keyframes pulse { 0% { transform: scale(0.75); } 40% { transform: scale(1); } 70% { transform: scale(1); } 100% { transform: scale(0.75); } }
+    /* Progress ring */
+    .progress { --p: 0; background: conic-gradient(#22c55e calc(var(--p)*1%), #e5e7eb 0); border-radius: 9999px; }
+    /* Simple fade */
+    .fade-in { animation: fade 400ms ease-out both; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
+    /* Chat area */
+    .chat { max-height: 360px; overflow-y: auto; }
+    .msg { border-radius: 1rem; padding: .75rem .9rem; margin: .35rem 0; }
+    .msg.user { background: #e5f3ff; }
+    .msg.ai { background: #f1f5f9; }
+    /* Mobile tweaks */
+    @media (max-width: 480px){ .breath-circle{ width:140px; height:140px } }
+
+button {
+  transition: all 0.2s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) inset;
+}
+.card {
+  background: rgb(var(--card));
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  border-radius: 1rem;
+  transition: all 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+.card:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06) inset;
+}
+.chip {
+  background: rgba(0,0,0,0.05);
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  font-size: .75rem;
+}
+    .chip:hover {
+        background: rgba(0,0,0,0.1);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transform: translateY(-1px);
+    }
+    .chip:active {
+        background: rgba(0,0,0,0.1);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) inset;
+        transform: translateY(1px);
+    }
+    .msg.user {
+  background: #e0f2fe; /* lighter blue */
+  align-self: flex-end;
+}
+.msg.ai {
+  background: #f8fafc;
+  border-left: 3px solid #22c55e;
+}
+    .msg:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: translateY(-1px);
+    }
+    .msg:active {
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1) inset;
+        transform: translateY(1px);
+    }
+    .msg.user:hover {
+        background: #bae6fd; /* slightly darker blue */
+    }
+    .msg.user:active {
+        background: #bae6fd;
+    }
+    .msg.ai:hover {
+        background: #f1f5f9;
+    }
+    .msg.ai:active {
+        background: #f1f5f9;
+    }
+
+/* --- Card base (from earlier) --- */
+.card {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border-radius: 1rem;
+  padding: 1.25rem; /* Tailwind p-5 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  opacity: 0;               /* start hidden */
+  transform: translateY(20px); /* slide in */
+  animation: cardFadeIn 0.6s ease forwards;
+}
+
+/* Animate each card with slight stagger */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Hover lift */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(145deg, #fdfdfd, #f1f5f9);
+}
+
+/* Card accent bar */
+.card::before {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 40px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #10b981, #14b8a6);
+  margin-bottom: 0.75rem;
+}
+
+/* --- Animation keyframes --- */
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Animate inner elements too --- */
+.card > * {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: contentFadeUp 0.6s ease forwards;
+}
+
+.card > *:nth-child(1) { animation-delay: 0.2s; }
+.card > *:nth-child(2) { animation-delay: 0.3s; }
+.card > *:nth-child(3) { animation-delay: 0.4s; }
+.card > *:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes contentFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
